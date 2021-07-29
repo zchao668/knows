@@ -1,6 +1,6 @@
 package com.work.knows.resp;
 
-public class EbookResq {
+public class EbookResp {
     private Long id;
 
     private String name;
