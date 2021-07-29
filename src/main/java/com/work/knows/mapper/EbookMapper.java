@@ -2,9 +2,8 @@ package com.work.knows.mapper;
 
 import com.work.knows.domain.Ebook;
 import com.work.knows.domain.EbookExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface EbookMapper {
     long countByExample(EbookExample example);
