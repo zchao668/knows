@@ -1,7 +1,8 @@
 package com.work.knows.controller;
 
-import com.work.knows.domain.Ebook;
+import com.work.knows.req.EbookReq;
 import com.work.knows.resp.CommonResp;
+import com.work.knows.resp.EbookResq;
 import com.work.knows.service.EbookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +18,11 @@ public class EbookController {
     EbookService ebookService;
 
     @RequestMapping("/list")
-    public CommonResp ebook(String name){
+    //EbookReq  请求参数的封装
+    public CommonResp ebook(EbookReq ebookReq){
         //封装了返回类型CommonResp类型
-        CommonResp<List<Ebook>> resp = new CommonResp<>();
-        List<Ebook> list = ebookService.list(name);
+        CommonResp<List<EbookResq>> resp = new CommonResp<>();
+        List<EbookResq> list = ebookService.list(ebookReq);
         resp.setContent(list);
         return resp;
     }
