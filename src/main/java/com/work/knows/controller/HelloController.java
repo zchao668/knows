@@ -3,7 +3,9 @@ package com.work.knows.controller;
 import com.work.knows.domain.Test;
 import com.work.knows.service.TestService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -13,6 +15,7 @@ public class HelloController {
 
     @Resource
     TestService testService;
+
 
     //取得配置文件中的自定义属性,若没写，则默认：后面的内容
     @Value("${test.hello:xixixi}")
@@ -34,4 +37,5 @@ public class HelloController {
     public List<Test> test(){
         return testService.list();
     }
+
 }
