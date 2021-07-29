@@ -17,9 +17,10 @@ public class EbookController {
     EbookService ebookService;
 
     @RequestMapping("/list")
-    public CommonResp ebook(){
+    public CommonResp ebook(String name){
+        //封装了返回类型CommonResp类型
         CommonResp<List<Ebook>> resp = new CommonResp<>();
-        List<Ebook> list = ebookService.list();
+        List<Ebook> list = ebookService.list(name);
         resp.setContent(list);
         return resp;
     }
