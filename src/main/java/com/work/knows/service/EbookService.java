@@ -7,6 +7,7 @@ import com.work.knows.req.EbookReq;
 import com.work.knows.resp.EbookResp;
 import com.work.knows.util.CopyUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -22,9 +23,13 @@ public class EbookService {
         //模糊查询name
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
-        criteria.andNameLike("%" + ebookReq.getName() + "%");
+        //动态Sql，如果参数为空，则不选择参数
+        if (!ObjectUtils.isEmpty(ebookReq.getName())) {
+            criteria.andNameLike("%" + ebookReq.getName() + "%");
+        }
         List<Ebook> ebooklist = ebookMapper.selectByExample(ebookExample);
 
+        //可以替代底下的列表复制
 //        ArrayList<EbookResq> resqList = new ArrayList<>();
 //        for(Ebook ebook: ebooklist){
 //            EbookResq ebookResq = new EbookResq();

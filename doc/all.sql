@@ -28,7 +28,10 @@ create table ebook(
 
 insert into ebook(id,name,description) values (1,'Springboot 入门','零基础学习Java开发');
 insert into ebook(id,name,description) values (2,'Vue 入门','零基础学习Vue开发');
-insert into ebook(id,name,description) values (3,'LInux 入门','零基础学习Linux开发');
+insert into ebook(id,name,description) values (3,'Linux 入门','零基础学习Linux开发');
+insert into ebook(id,name,description) values (4,'Java 入门','零基础学习Java开发');
+insert into ebook(id,name,description) values (5,'Js 入门','零基础学习Vue开发');
+insert into ebook(id,name,description) values (6,' Tomcat入门','零基础学习Linux开发');
 
 
 
