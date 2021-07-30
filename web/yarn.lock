@@ -1155,6 +1155,13 @@
   "resolved" "https://registry.nlark.com/aws4/download/aws4-1.11.0.tgz"
   "version" "1.11.0"
 
+"axios@^0.21.0":
+  "integrity" "sha1-Jt8IiAOiNQ3/LCf5b++Z/klEKso="
+  "resolved" "https://registry.npm.taobao.org/axios/download/axios-0.21.0.tgz"
+  "version" "0.21.0"
+  dependencies:
+    "follow-redirects" "^1.10.0"
+
 "babel-code-frame@^6.22.0":
   "integrity" "sha1-Y/1D99weO7fONZR9uP42mj9Yx0s="
   "resolved" "https://registry.npm.taobao.org/babel-code-frame/download/babel-code-frame-6.26.0.tgz"
@@ -3327,7 +3334,7 @@
     "inherits" "^2.0.3"
     "readable-stream" "^2.3.6"
 
-"follow-redirects@^1.0.0":
+"follow-redirects@^1.0.0", "follow-redirects@^1.10.0":
   "integrity" "sha1-2RFN7Qoc/dM04WTmZirQK/2R/0M="
   "resolved" "https://registry.nlark.com/follow-redirects/download/follow-redirects-1.14.1.tgz"
   "version" "1.14.1"
