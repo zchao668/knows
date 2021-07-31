@@ -1,4 +1,4 @@
-GET http://localhost:8080/hello
+GET http://localhost:8880/hello
 #Accept: application/json
 
 #测试脚本
@@ -21,7 +21,7 @@ name=Test
 
 ###
 
-GET http://localhost:8080/test/list
+GET http://localhost:8880/test/list
 
 
 ###
