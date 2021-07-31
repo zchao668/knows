@@ -7,6 +7,7 @@ import com.work.knows.domain.EbookExample;
 import com.work.knows.mapper.EbookMapper;
 import com.work.knows.req.EbookReq;
 import com.work.knows.resp.EbookResp;
+import com.work.knows.resp.PageResp;
 import com.work.knows.util.CopyUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -21,7 +22,7 @@ public class EbookService {
     EbookMapper ebookMapper;
 
     //封装返回参数EbookResp   请求参数EbookReq
-    public List<EbookResp> list(EbookReq ebookReq){
+    public PageResp<EbookResp> list(EbookReq ebookReq){
         //模糊查询name
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
@@ -30,10 +31,10 @@ public class EbookService {
             criteria.andNameLike("%" + ebookReq.getName() + "%");
         }
         //支持分页，一页，三个
-        PageHelper.startPage(1,3);
+        PageHelper.startPage(ebookReq.getPage(),ebookReq.getSize());
         List<Ebook> ebooklist = ebookMapper.selectByExample(ebookExample);
 
-        //分页 可以获得总行数，总页数
+        //分页 可以获得总行数，总页数(就是总数全部一般为list)
         PageInfo<Ebook> pageInfo = new PageInfo<>(ebooklist);
         System.out.println(pageInfo.getTotal());
         System.out.println(pageInfo.getPages());
@@ -50,6 +51,11 @@ public class EbookService {
 //        }
         //列表复制
         List<EbookResp> list = CopyUtil.copyList(ebooklist, EbookResp.class);
-        return list;
+
+        //使返回值为PageResp类型
+        PageResp<EbookResp> pageResp = new PageResp<>();
+        pageResp.setList(list);
+        pageResp.setTotal(pageInfo.getTotal());
+        return pageResp;
     }
 }
