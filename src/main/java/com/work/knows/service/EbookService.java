@@ -23,7 +23,7 @@ public class EbookService {
         //模糊查询name
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
-        //动态Sql，如果参数为空，则不选择参数
+        //动态Sql，如果参数为空，则不选择参数  name有参数值按照name查，无值时按照全部查
         if (!ObjectUtils.isEmpty(ebookReq.getName())) {
             criteria.andNameLike("%" + ebookReq.getName() + "%");
         }
