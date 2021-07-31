@@ -1,5 +1,7 @@
 package com.work.knows.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.work.knows.domain.Ebook;
 import com.work.knows.domain.EbookExample;
 import com.work.knows.mapper.EbookMapper;
@@ -27,7 +29,14 @@ public class EbookService {
         if (!ObjectUtils.isEmpty(ebookReq.getName())) {
             criteria.andNameLike("%" + ebookReq.getName() + "%");
         }
+        //支持分页，一页，三个
+        PageHelper.startPage(1,3);
         List<Ebook> ebooklist = ebookMapper.selectByExample(ebookExample);
+
+        //分页 可以获得总行数，总页数
+        PageInfo<Ebook> pageInfo = new PageInfo<>(ebooklist);
+        System.out.println(pageInfo.getTotal());
+        System.out.println(pageInfo.getPages());
 
         //可以替代底下的列表复制
 //        ArrayList<EbookResq> resqList = new ArrayList<>();
