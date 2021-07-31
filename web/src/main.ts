@@ -5,6 +5,10 @@ import store from './store'
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import * as Icons from '@ant-design/icons-vue';
+import axios from 'axios';
+
+axios.defaults.baseURL = process.env.VUE_APP_SERVER
+
 //集成第三方组件，一般要在main.ts里面加入配置
 const app = createApp(App)
 app.use(store).use(router).use(Antd).mount('#app');

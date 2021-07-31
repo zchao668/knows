@@ -11,7 +11,7 @@
                     <template #title>
                   <span>
                     <user-outlined />
-                    subnav 111
+                    subnav 222
                   </span>
                     </template>
                     <a-menu-item key="1">option1</a-menu-item>
@@ -100,7 +100,7 @@
 
                 onMounted(() => {
                     console.log('onMounted');
-                    axios.get(process.env.VUE_APP_SERVER + "/ebook/list").then((response) => {
+                    axios.get("/ebook/list").then((response) => {
                         const data = response.data;
                         ebooks.value = data.content;
                         ebooks1.books = data.content;
