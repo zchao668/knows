@@ -88,13 +88,13 @@
         },
         {
           title: '分类一',
-          key:'category1id',
-          dataIndex:'category1id',
+          key:'category1Id',
+          dataIndex:'category1Id',
         },
         {
           title: '分类二',
-          key:'category2id',
-          dataIndex:'category2id',
+          key:'category2Id',
+          dataIndex:'category2Id',
         },
         {
           title: '文档数',
@@ -116,7 +116,7 @@
       ];
 
       /**
-       * 数据查询
+       * 刚刚加载就进入数据查询
        **/
       const handleQuery = (params: any) => {
         loading.value = true;
@@ -144,13 +144,27 @@
           size: pagination.pageSize
         });
       };
-
-      //编辑表单
+      //表单
         const modalVisible = ref(false);
         const modalLoading = ref(false);
         const ebook = ref({});
+        //点击保存
         const handleModalOk = () => {
             modalLoading.value = true;
+            axios.post("/ebook/save", ebook.value).then((response) => {
+                const data = response.data;  //data = CommResp
+                if(data.sucess){
+                    modalVisible.value = false;
+                    modalLoading.value = false;
+
+                    //重新加载列表
+                    handleQuery({
+                        page : pagination.value.current,
+                        size : pagination.value.pageSize
+                    });
+                }
+            });
+
             setTimeout(() => {
                 modalVisible.value = false;
                 modalLoading.value = false;
@@ -160,8 +174,8 @@
         const edit = (record : any) => {
             modalVisible.value = true;
             ebook.value = record
-        };
 
+        };
 
       onMounted(() =>{
         handleQuery({
