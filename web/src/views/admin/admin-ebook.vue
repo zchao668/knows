@@ -32,6 +32,33 @@
       </a-table>
     </a-layout-content>
   </a-layout>
+    <!--编辑对话框-->
+    <a-modal
+            title="电子书表单"
+            v-model:visible="modalVisible"
+            :confirm-loading="modalLoading"
+            @ok="handleModalOk"
+    >
+        <!--表单-->
+        <a-form :model="ebook" :label-col="{span : 6}" >
+            <a-form-item label="封面">
+                <a-input v-model:value="ebook.cover" />
+            </a-form-item>
+            <a-form-item label="名称">
+                <a-input v-model:value="ebook.name" />
+            </a-form-item>
+            <a-form-item label="分类一">
+                <a-input v-model:value="ebook.category1Id" />
+            </a-form-item>
+            <a-form-item label="分类二">
+                <a-input v-model:value="ebook.category2Id" />
+            </a-form-item>
+            <a-form-item label="描述">
+                <a-input v-model:value="ebook.desc" type="text" />
+            </a-form-item>
+        </a-form>
+    </a-modal>
+
 </template>
 
 <script lang="ts">
@@ -118,6 +145,24 @@
         });
       };
 
+      //编辑表单
+        const modalVisible = ref(false);
+        const modalLoading = ref(false);
+        const ebook = ref({});
+        const handleModalOk = () => {
+            modalLoading.value = true;
+            setTimeout(() => {
+                modalVisible.value = false;
+                modalLoading.value = false;
+            }, 2000);
+        };
+        //编辑
+        const edit = (record : any) => {
+            modalVisible.value = true;
+            ebook.value = record
+        };
+
+
       onMounted(() =>{
         handleQuery({
           page : 1,
@@ -130,7 +175,13 @@
         pagination,
         columns,
         loading,
-        handleTableChange
+        handleTableChange,
+
+        modalVisible,
+        modalLoading,
+        edit,
+        ebook,
+        handleModalOk,
       };
 
     }
