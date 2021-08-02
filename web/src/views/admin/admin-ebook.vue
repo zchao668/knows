@@ -26,9 +26,16 @@
             <a-button type="primary" @click="edit(record)">
               编辑
             </a-button>
-            <a-button type="danger">
-                删除
-            </a-button>
+              <a-popconfirm
+                      title="删除后不可恢复，确认删除?"
+                      ok-text="是"
+                      cancel-text="否"
+                      @confirm="handleDelete(record.id)"
+              >
+                  <a-button type="danger" >
+                      删除
+                  </a-button>
+              </a-popconfirm>
           </a-space>
         </template>
       </a-table>
@@ -56,7 +63,7 @@
                 <a-input v-model:value="ebook.category2Id" />
             </a-form-item>
             <a-form-item label="描述">
-                <a-input v-model:value="ebook.desc" type="text" />
+                <a-input v-model:value="ebook.description" type="text" />
             </a-form-item>
         </a-form>
     </a-modal>
@@ -157,7 +164,7 @@
             modalLoading.value = true;
             axios.post("/ebook/save", ebook.value).then((response) => {
                 const data = response.data;  //data = CommResp
-                if(data.sucess){
+                if(data.success){
                     modalVisible.value = false;
                     modalLoading.value = false;
 
@@ -168,17 +175,11 @@
                     });
                 }
             });
-
-            setTimeout(() => {
-                modalVisible.value = false;
-                modalLoading.value = false;
-            }, 2000);
         };
         //编辑
         const edit = (record : any) => {
             modalVisible.value = true;
             ebook.value = record
-
         };
         /**
          * 新增
@@ -186,6 +187,22 @@
         const add = () => {
             modalVisible.value = true;
             ebook.value = {};
+        };
+
+        /**
+         * 删除
+         */
+        const handleDelete = (id : number) => {
+            axios.delete("/ebook/delete/" + id).then((response) => {
+                const data = response.data;  //data = CommResp
+                if(data.success){
+                    //重新加载列表
+                    handleQuery({
+                        page : pagination.value.current,
+                        size : pagination.value.pageSize
+                    });
+                }
+            });
         };
 
 
@@ -210,6 +227,7 @@
         modalVisible,
         modalLoading,
         handleModalOk,
+        handleDelete
       };
 
     }
