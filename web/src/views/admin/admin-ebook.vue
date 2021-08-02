@@ -73,6 +73,7 @@
 <script lang="ts">
   import { defineComponent,onMounted ,ref} from 'vue';
   import axios from 'axios';
+  import {message} from 'ant-design-vue'
 
   export default defineComponent({
     name: 'AdminEbook',
@@ -80,7 +81,7 @@
       const ebooks = ref();
       const pagination = ref({
         current: 1,
-        pageSize: 4,
+        pageSize: 1002,
         total: 0
       });
       const loading = ref(false);
@@ -125,7 +126,7 @@
       ];
 
       /**
-       * 刚刚加载就进入数据查询
+       * 刚刚加载就进入数据查询，在onMounted中使用
        **/
       const handleQuery = (params: any) => {
         loading.value = true;
@@ -139,10 +140,15 @@
         }).then((response) => {
           loading.value = false;
           const data = response.data;
-          ebooks.value = data.content.list;
-          // 重置分页按
-          pagination.value.current = params.page;
-          pagination.value.total = data.content.total;
+          //返回success才执行，否则返回错误信息
+          if(data.success){
+              ebooks.value = data.content.list;
+              // 重置分页按
+              pagination.value.current = params.page;
+              pagination.value.total = data.content.total;
+          }else {
+              message.error(data.message);
+          }
         });
       };
       /**
@@ -167,7 +173,6 @@
                 if(data.success){
                     modalVisible.value = false;
                     modalLoading.value = false;
-
                     //重新加载列表
                     handleQuery({
                         page : pagination.value.current,
@@ -205,7 +210,7 @@
             });
         };
 
-
+        //进入程序及执行
         onMounted(() =>{
         handleQuery({
           page : 1,

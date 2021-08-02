@@ -9,6 +9,8 @@ import com.work.knows.service.EbookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/ebook")
 public class EbookController {
@@ -16,9 +18,10 @@ public class EbookController {
     @Autowired
     EbookService ebookService;
 
-    @RequestMapping("/list")
     //EbookReq  请求参数的封装
-    public CommonResp list(EbookQueryReq ebookQueryReq){
+    // 加入Valid检验规则，并加入ExceptionHandler，对错误信息进行拦截，将错误信息返回至CommonResp，让前端接收
+    @RequestMapping("/list")
+    public CommonResp list(@Valid EbookQueryReq ebookQueryReq){
         //封装了返回类型CommonResp类型
         CommonResp<PageResp<EbookQueryResp>> resp = new CommonResp<>();
         PageResp<EbookQueryResp> list = ebookService.list(ebookQueryReq);
