@@ -10,6 +10,7 @@ import com.work.knows.req.EbookSaveReq;
 import com.work.knows.resp.EbookQueryResp;
 import com.work.knows.resp.PageResp;
 import com.work.knows.util.CopyUtil;
+import com.work.knows.util.SnowFlake;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -21,6 +22,9 @@ public class EbookService {
 
     @Resource
     EbookMapper ebookMapper;
+
+    @Resource
+    SnowFlake snowFlake;
 
     //查询list
     //封装返回参数EbookResp   请求参数EbookReq
@@ -61,14 +65,20 @@ public class EbookService {
         return pageResp;
     }
 
-    //更新或者新增
-    public void save(EbookSaveReq ebookSaveReq){
-        Ebook ebook = CopyUtil.copy(ebookSaveReq,Ebook.class);
-        if(ObjectUtils.isEmpty(ebookSaveReq.getId())){
-            //新增
+    //主键自增
+    private static long initId = 1003;
+
+    /**
+     * 保存
+     */
+    public void save(EbookSaveReq req) {
+        Ebook ebook = CopyUtil.copy(req, Ebook.class);
+        if (ObjectUtils.isEmpty(req.getId())) {
+            // 新增
+            ebook.setId(initId++);
             ebookMapper.insert(ebook);
-        }else{
-            //更新
+        } else {
+            // 更新
             ebookMapper.updateByPrimaryKey(ebook);
         }
     }

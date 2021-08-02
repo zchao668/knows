@@ -7,7 +7,9 @@
       <div class="about">
         <h1>电子书管理</h1>
       </div>
-
+        <a-button type="primary" @click="add()">
+            新增
+        </a-button>
       <a-table
               :columns="columns"
               :row-key="record => record.id"
@@ -32,7 +34,7 @@
       </a-table>
     </a-layout-content>
   </a-layout>
-    <!--编辑对话框-->
+    <!--新增 编辑对话框-->
     <a-modal
             title="电子书表单"
             v-model:visible="modalVisible"
@@ -120,6 +122,8 @@
        **/
       const handleQuery = (params: any) => {
         loading.value = true;
+          // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
+        ebooks.value = [];
         axios.get("/ebook/list", {
           params : {
             page : params.page,
@@ -176,8 +180,16 @@
             ebook.value = record
 
         };
+        /**
+         * 新增
+         */
+        const add = () => {
+            modalVisible.value = true;
+            ebook.value = {};
+        };
 
-      onMounted(() =>{
+
+        onMounted(() =>{
         handleQuery({
           page : 1,
           size : pagination.value.pageSize
@@ -191,10 +203,12 @@
         loading,
         handleTableChange,
 
+        edit,
+        add,
+
+        ebook,
         modalVisible,
         modalLoading,
-        edit,
-        ebook,
         handleModalOk,
       };
 
