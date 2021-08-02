@@ -22,6 +22,7 @@ public class EbookController {
     // 加入Valid检验规则，并加入ExceptionHandler，对错误信息进行拦截，将错误信息返回至CommonResp，让前端接收
     @RequestMapping("/list")
     public CommonResp list(@Valid EbookQueryReq ebookQueryReq){
+        //ebookQueryReq 是为了按照名字进行查询
         //封装了返回类型CommonResp类型
         CommonResp<PageResp<EbookQueryResp>> resp = new CommonResp<>();
         PageResp<EbookQueryResp> list = ebookService.list(ebookQueryReq);
