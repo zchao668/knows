@@ -35,6 +35,7 @@
             <a-list item-layout="vertical" size="large" :grid="{ gutter: 20, column: 3 }"  :data-source="ebooks">
                 <template #renderItem="{ item }">
                     <a-list-item key="item.name">
+
                         <template #actions>
                           <span v-for="{ type, text } in actions" :key="type">
                             <component v-bind:is="type" style="margin-right: 8px" />
@@ -44,7 +45,7 @@
 
                         <a-list-item-meta :description="item.description">
                             <template #title>
-                                <a :href="item.href">{{ item.description }}</a>
+                                <a :href="item.href">{{ item.name }}</a>
                             </template>
                             <template #avatar><a-avatar :src="item.cover" /></template>
                         </a-list-item-meta>
