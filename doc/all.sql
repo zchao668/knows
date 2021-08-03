@@ -9,6 +9,7 @@ drop table if exists demo;
 create table demo(
                      id int not null comment 'id',
                      name varchar(50) comment '名称',
+                     cha bigint not null comment 'ddd',
                      primary key (id)
 ) engine=innodb default charset =utf8mb4 comment = '测试';
 
@@ -40,7 +41,7 @@ create table category(
                       name varchar(50) not null comment '名称',
                       sort int comment '顺序',
                       primary key (id)
-) engine=innodb default charset =utf8mb4 comment = '电子书';
+) engine=innodb default charset =utf8mb4 comment = '分类';
 
 insert into category(id,parent,name,sort) values (100,000,'前端开发',100);
 insert into category(id,parent,name,sort) values (101,100,'Vue',101);
@@ -48,6 +49,7 @@ insert into category(id,parent,name,sort) values (102,100,'HTML & CSS',102);
 insert into category(id,parent,name,sort) values (200,000,'Java',200);
 insert into category(id,parent,name,sort) values (201,200,'前端开发',201);
 insert into category(id,parent,name,sort) values (202,200,'后端开发',202);
+
 
 
 

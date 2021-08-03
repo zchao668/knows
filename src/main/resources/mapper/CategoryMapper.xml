@@ -2,8 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.work.knows.mapper.CategoryMapper">
   <resultMap id="BaseResultMap" type="com.work.knows.domain.Category">
-    <result column="cid" jdbcType="INTEGER" property="cid" />
-    <result column="cname" jdbcType="VARCHAR" property="cname" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent" jdbcType="BIGINT" property="parent" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    cid, cname
+    id, parent, `name`, sort
   </sql>
   <select id="selectByExample" parameterType="com.work.knows.domain.CategoryExample" resultMap="BaseResultMap">
     select
@@ -80,6 +82,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from category
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from category
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
   <delete id="deleteByExample" parameterType="com.work.knows.domain.CategoryExample">
     delete from category
     <if test="_parameter != null">
@@ -87,25 +99,39 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.work.knows.domain.Category">
-    insert into category (cid, cname)
-    values (#{cid,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR})
+    insert into category (id, parent, `name`, 
+      sort)
+    values (#{id,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.work.knows.domain.Category">
     insert into category
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="cid != null">
-        cid,
+      <if test="id != null">
+        id,
       </if>
-      <if test="cname != null">
-        cname,
+      <if test="parent != null">
+        parent,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="sort != null">
+        sort,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="cid != null">
-        #{cid,jdbcType=INTEGER},
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
       </if>
-      <if test="cname != null">
-        #{cname,jdbcType=VARCHAR},
+      <if test="parent != null">
+        #{parent,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -118,11 +144,17 @@
   <update id="updateByExampleSelective" parameterType="map">
     update category
     <set>
-      <if test="record.cid != null">
-        cid = #{record.cid,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.cname != null">
-        cname = #{record.cname,jdbcType=VARCHAR},
+      <if test="record.parent != null">
+        parent = #{record.parent,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -131,10 +163,34 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update category
-    set cid = #{record.cid,jdbcType=INTEGER},
-      cname = #{record.cname,jdbcType=VARCHAR}
+    set id = #{record.id,jdbcType=BIGINT},
+      parent = #{record.parent,jdbcType=BIGINT},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.work.knows.domain.Category">
+    update category
+    <set>
+      <if test="parent != null">
+        parent = #{parent,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.work.knows.domain.Category">
+    update category
+    set parent = #{parent,jdbcType=BIGINT},
+      `name` = #{name,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
