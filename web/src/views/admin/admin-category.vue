@@ -9,7 +9,7 @@
                 :model="param"
         >
             <a-form-item>
-                <a-button type="primary" @click="handleQuery({page:1,size:pagination.pageSize})" >
+                <a-button type="primary" @click="handleQuery()" >
                     查询
                 </a-button>
             </a-form-item>
@@ -22,7 +22,7 @@
       <a-table
               :columns="columns"
               :row-key="record => record.id"
-              :data-source="categorys"
+              :data-source="level1"
               :pagination="false"
               :loading="loading"
       >
@@ -57,7 +57,7 @@
             @ok="handleModalOk"
     >
         <!--表单-->
-        <a-form :model="category" :label-col="{span : 6}" >
+        <a-form :model="category" :label-col="{span : 6}" :wrapper-col="{ span: 18 }">
             <a-form-item label="名称">
                 <a-input v-model:value="category.name" />
             </a-form-item>
@@ -108,6 +108,20 @@
         }
       ];
 
+        /**
+         * 一级分类树，children属性就是二级分类
+         * [{
+         *   id: "",
+         *   name: "",
+         *   children: [{
+         *     id: "",
+         *     name: "",
+         *   }]
+         * }]
+         */
+        const level1 = ref(); // 一级分类树，children属性就是二级分类
+        level1.value = [];
+
       /**
        * 刚刚加载就进入数据查询，在onMounted中使用
        **/
@@ -121,6 +135,10 @@
           //返回success才执行，否则返回错误信息
           if(data.success){
               categorys.value = data.content;
+              console.log("原始数组：", categorys.value);
+
+              level1.value = [];
+              level1.value = Tool.array2Tree(categorys.value,0);
           }else {
               message.error(data.message);
           }
@@ -191,7 +209,8 @@
         handleModalOk,
         handleDelete,
         handleQuery,
-        param
+        param,
+        level1
       };
 
     }
