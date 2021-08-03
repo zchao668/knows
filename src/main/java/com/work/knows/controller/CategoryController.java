@@ -2,14 +2,15 @@ package com.work.knows.controller;
 
 import com.work.knows.req.CategoryQueryReq;
 import com.work.knows.req.CategorySaveReq;
-import com.work.knows.resp.CommonResp;
 import com.work.knows.resp.CategoryQueryResp;
+import com.work.knows.resp.CommonResp;
 import com.work.knows.resp.PageResp;
 import com.work.knows.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/category")
@@ -17,6 +18,16 @@ public class CategoryController {
 
     @Autowired
     CategoryService categoryService;
+
+    @RequestMapping("/all")
+    public CommonResp all(){
+        //封装了返回类型CommonResp类型
+        CommonResp<List<CategoryQueryResp>> resp = new CommonResp<>();
+        List<CategoryQueryResp> list = categoryService.all();
+        resp.setContent(list);
+        return resp;
+    }
+
 
     //CategoryReq  请求参数的封装
     // 加入Valid检验规则，并加入ExceptionHandler，对错误信息进行拦截，将错误信息返回至CommonResp，让前端接收

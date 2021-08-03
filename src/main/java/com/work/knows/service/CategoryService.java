@@ -10,7 +10,6 @@ import com.work.knows.req.CategorySaveReq;
 import com.work.knows.resp.CategoryQueryResp;
 import com.work.knows.resp.PageResp;
 import com.work.knows.util.CopyUtil;
-import com.work.knows.util.SnowFlake;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -23,38 +22,32 @@ public class CategoryService {
     @Resource
     CategoryMapper categoryMapper;
 
-    @Resource
-    SnowFlake snowFlake;
 
-    //查询list
+    //查询所有，没有分页功能
+    public List<CategoryQueryResp> all(){
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
+        List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
+
+        // 列表复制  为了让返回类型为CategoryQueryResp
+        List<CategoryQueryResp> list = CopyUtil.copyList(categoryList, CategoryQueryResp.class);
+        return list;
+    }
+
+    //查询list(可以按照名字查询，支持分页)
     //封装返回参数CategoryResp   请求参数CategoryReq
     public PageResp<CategoryQueryResp> list(CategoryQueryReq categoryQueryReq){
-        //模糊查询name
         CategoryExample categoryExample = new CategoryExample();
-        CategoryExample.Criteria criteria = categoryExample.createCriteria();
-//        //动态Sql，如果参数为空，则不选择参数  name有参数值按照name查，无值时按照全部查
-//        if (!ObjectUtils.isEmpty(categoryQueryReq.getName())) {
-//            criteria.andNameLike("%" + categoryQueryReq.getName() + "%");
-//        }
+
         //支持分页，一页，三个
         PageHelper.startPage(categoryQueryReq.getPage(), categoryQueryReq.getSize());
         List<Category> categorylist = categoryMapper.selectByExample(categoryExample);
 
         //分页 可以获得总行数，总页数(就是总数全部一般为list)
         PageInfo<Category> pageInfo = new PageInfo<>(categorylist);
-        System.out.println(pageInfo.getTotal());
-        System.out.println(pageInfo.getPages());
+        System.out.println("总行数："+pageInfo.getTotal());
+        System.out.println("总页数：" + pageInfo.getPages());
 
-        //可以替代底下的列表复制
-//        ArrayList<CategoryResq> resqList = new ArrayList<>();
-//        for(Category category: categorylist){
-//            CategoryResq categoryResq = new CategoryResq();
-//            //工具类 复制list中每个元素
-//            BeanUtils.copyProperties(category,categoryResq);
-        //对象复制
-//        CategoryResq categoryResq = CopyUtil.copy(category, CategoryResq.class);
-//            resqList.add(categoryResq);
-//        }
         //列表复制
         List<CategoryQueryResp> list = CopyUtil.copyList(categorylist, CategoryQueryResp.class);
 
@@ -66,7 +59,7 @@ public class CategoryService {
     }
 
     //主键自增
-    private static long initId = 1003;
+    private static long initId = 1001;
 
     /**
      * 保存
