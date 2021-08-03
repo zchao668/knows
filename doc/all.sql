@@ -33,6 +33,21 @@ insert into ebook(id,name,description) values (4,'Java 入门','零基础学习J
 insert into ebook(id,name,description) values (5,'Js 入门','零基础学习Vue开发');
 insert into ebook(id,name,description) values (6,' Tomcat入门','零基础学习Linux开发');
 
+drop table if exists category;
+create table category(
+                      id bigint not null comment 'id',
+                      parent bigint not null default 0 comment '父id',
+                      name varchar(50) not null comment '名称',
+                      sort int comment '顺序',
+                      primary key (id)
+) engine=innodb default charset =utf8mb4 comment = '电子书';
+
+insert into category(id,parent,name,sort) values (100,000,'前端开发',100);
+insert into category(id,parent,name,sort) values (101,100,'Vue',101);
+insert into category(id,parent,name,sort) values (102,100,'HTML & CSS',102);
+insert into category(id,parent,name,sort) values (200,000,'Java',200);
+insert into category(id,parent,name,sort) values (201,200,'前端开发',201);
+insert into category(id,parent,name,sort) values (202,200,'后端开发',202);
 
 
 
