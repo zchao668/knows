@@ -18,6 +18,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any' : 'off',
     'vue/no-unused-vars' : 'off',
     '@typescript-eslint/ban-types' : 'off',
-    '@typescript-eslint/explicit-module-boundary-types' : 'off'
+    '@typescript-eslint/explicit-module-boundary-types' : 'off',
+    'vue/no-parsing-error' : 'off'
   }
 }
