@@ -29,6 +29,7 @@ public class EbookService {
     //查询list
     //封装返回参数EbookResp   请求参数EbookReq
     public PageResp<EbookQueryResp> list(EbookQueryReq ebookQueryReq){
+        //根据某个条件执行操作，运用到EbookExample
         //模糊查询name
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
