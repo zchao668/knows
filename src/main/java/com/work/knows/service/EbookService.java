@@ -36,6 +36,11 @@ public class EbookService {
         if (!ObjectUtils.isEmpty(ebookQueryReq.getName())) {
             criteria.andNameLike("%" + ebookQueryReq.getName() + "%");
         }
+        //动态Sql查询分类下的电子书
+        if (!ObjectUtils.isEmpty(ebookQueryReq.getCategory2Id())) {
+            criteria.andCategory2IdEqualTo (ebookQueryReq.getCategory2Id());
+        }
+
         //支持分页，一页，三个
         PageHelper.startPage(ebookQueryReq.getPage(), ebookQueryReq.getSize());
         List<Ebook> ebooklist = ebookMapper.selectByExample(ebookExample);

@@ -98,28 +98,35 @@
                 };
 
                 const isShowWelcome = ref(true);
+                let category2Id =0;
 
-                const handleClick = (value: any) => {
-                    console.log(value);
-                    if (value.key === 'welcome') {
-                        isShowWelcome.value = true;
-                    } else {
-                        isShowWelcome.value = false;
-                    }
-                };
-
-                onMounted(() => {
-                    handleQueryCategory(),
+                const handleQueryEbook = () =>{
                     axios.get("/ebook/list",{
                         params : {
                             page:1,
-                            size:1000
+                            size:1000,
+                            category2Id:category2Id
                         }
                     }).then((response) => {
                         const data = response.data;
                         ebooks.value = data.content.list;
                         //ebooks1.books = data.content.list;
                     });
+                }
+
+                const handleClick = (value: any) => {
+                    console.log(value);
+                    if (value.key === 'welcome') {
+                        isShowWelcome.value = true;
+                    } else {
+                        isShowWelcome.value = false,
+                        category2Id = value.key
+                        handleQueryEbook();
+                    }
+                };
+
+                onMounted(() => {
+                    handleQueryCategory();
                 })
 
                 const pagination = {
@@ -149,7 +156,8 @@
                     ebooks,
                     level1,
                     handleClick,
-                    isShowWelcome
+                    isShowWelcome,
+                    handleQueryEbook
                 };
 
             }
