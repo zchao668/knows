@@ -17,6 +17,7 @@
                 <a-button type="primary" @click="add()" >
                     新增
                 </a-button>
+
             </a-form-item>
         </a-form>
       <a-table
@@ -78,17 +79,22 @@
             <a-form-item label="排序">
                 <a-input v-model:value="doc.sort" />
             </a-form-item>
+            <a-form-item label="内容">
+                <div id="content"></div>
+            </a-form-item>
         </a-form>
     </a-modal>
 
 </template>
 
-<script lang="ts">
+
+<script lang="ts" >
   import { defineComponent,onMounted ,ref} from 'vue';
   import axios from 'axios';
   import {message} from 'ant-design-vue'
   import {Tool} from "../../util/tool";
   import {useRoute} from "vue-router";
+  // import E from 'wangeditor'
 
   export default defineComponent({
     name: 'AdminDoc',
@@ -243,6 +249,8 @@
         const modalLoading = ref(false);
         const doc = ref({});
 
+        // const editor = new E("#content")
+
         //点击保存
         const handleModalOk = () => {
             modalLoading.value = true;
@@ -269,6 +277,10 @@
 
             // 为选择树添加一个"无"
             treeSelectData.value.unshift({id: 0, name: '无'});
+
+            // setTimeout(function () {
+            //     editor.create();
+            // },100)
         };
         /**
          * 新增
@@ -283,6 +295,11 @@
 
             // 为选择树添加一个"无"
             treeSelectData.value.unshift({id: 0, name: '无'});
+
+            // setTimeout(function () {
+            //     editor.create();
+            // },100)
+
         };
 
         /**
